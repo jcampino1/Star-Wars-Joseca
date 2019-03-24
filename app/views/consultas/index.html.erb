@@ -1,0 +1,24 @@
+<center><h1>Bienvenido!</h1></center>
+
+<h3>Selecciona alguna pelicula para ver los detalles</h3>
+
+<table class="table">
+	<thead>
+		<th>Nombre</th>
+		<th>Fecha de release</th>
+		<th>Director</th>
+		<th>Productor/es</th>
+		<th>Numero de episodio</th>
+	</thead>
+	<tbody>
+		<% @response.each do |film| %>
+			<tr>
+				<td><%= link_to film["title"], consulta_especifica_path(categoria: "films", indice: film["episode_id"]) %></td>
+				<td><%= film["release_date"] %></td>
+				<td><%= film["director"] %></td>
+				<td><%= film["producer"] %></td>
+				<td><%= film["episode_id"] %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>

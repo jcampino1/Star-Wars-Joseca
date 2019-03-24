@@ -1,0 +1,19 @@
+<% @response.each do |key, value| %>
+	<table>
+		<tbody>
+			<tr>
+				<td><strong><%= key %></strong></td>
+				<% if value.class == Array %>
+					<td>
+						<% value.each do |tupla| %>
+							<%= link_to tupla[0], persona_path(direccion: tupla[1]) %>
+							,
+						<% end %>
+					</td>
+				<%else %>
+					<td><%=value%></td>
+				<% end %>
+			</tr>
+		</tbody>
+	</table>
+<% end %>
