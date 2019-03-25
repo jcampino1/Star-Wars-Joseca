@@ -1,0 +1,11 @@
+<h1>Resultados busqueda</h1>
+<% para_imprimir = ['Personas', 'Naves', 'Planetas', 'Peliculas'] %>
+
+<% @resultados.each do |area, resultado| %>
+	<h3><strong><%= para_imprimir[area.to_i] %></strong></h3>
+	<% resultado.each do |tupla| %>
+		<div>
+			<%= link_to tupla[0], consulta_especifica_path(direccion: tupla[1]) %>
+		</div>
+	<% end %>
+<% end %>

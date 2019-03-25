@@ -1,4 +1,5 @@
 require 'httparty'
+require 'json'
 
 class ConsultasController < ApplicationController
 
@@ -49,30 +50,38 @@ class ConsultasController < ApplicationController
 		end
 	end
 
-	def persona
-		@direccion = params[:direccion]
-		@response = HTTParty.get(@direccion)
+	def search
+		texto = params[:texto]
+		busquedas = ['people', 'starships', 'planets', 'films']
+		contador = 0
 
-		@response.each do |key, value|
-			if key == 'vehicles' or key == 'species'
-				@response.delete(key)
+		@resultados = {}
 
-			else
-				if value.class == Array
-					nombres = []
-					for elem in value
-						r = HTTParty.get(elem)
-						if key == "films"
-							nombres.push([r["title"], elem])
-						else
-							nombres.push([r["name"], elem])
+		busquedas.each do |area|
+			sirven = []
+
+			personas = HTTParty.get('https://swapi.co/api/' + area)
+			siguiente = true
+			while siguiente
+				personas["results"].each do |persona|
+					if area == 'films'
+						if persona["title"].include?(texto)
+							sirven.push([persona["title"], persona["url"]])
+						end
+					else
+						if persona["name"].include?(texto)
+							sirven.push([persona["name"], persona["url"]])
 						end
 					end
-					@response[key] = nombres
+				end
+				siguiente = personas["next"]
+				if siguiente
+					personas = HTTParty.get(siguiente)
 				end
 			end
+			@resultados[contador] = sirven
+			contador += 1
 		end
-
 	end
 
 end

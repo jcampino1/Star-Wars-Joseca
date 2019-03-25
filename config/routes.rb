@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root "consultas#index"
 
   get "consulta_especifica", to: "consultas#consulta_especifica", as: :consulta_especifica
+  get "search", to: "consultas#search", as: :search
   #get "persona", to: "consultas#persona", as: :persona
 
 end
